@@ -56,6 +56,8 @@
     self = [super init];
     if (self) {
         _tableView = [[NUITableView alloc] initWithFrame:CGRectZero style:style];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
     }
     return self;
 }
@@ -68,14 +70,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    if (self.tableView.delegate == nil) {
-        self.tableView.delegate = self;
-    }
-
-    if (self.tableView.dataSource == nil) {
-        self.tableView.dataSource = self;
-    }
 
     if (self.tableView.searchEnabled) {
         UISearchBar *searchBar = [[UISearchBar alloc] init];
