@@ -1,0 +1,6 @@
+[submodule "Libraries/ODRefreshControl"]
+	path = Libraries/ODRefreshControl
+	url = git://github.com/Sephiroth87/ODRefreshControl.git
+[submodule "Libraries/SVPullToRefresh"]
+	path = Libraries/SVPullToRefresh
+	url = git://github.com/samvermette/SVPullToRefresh.git

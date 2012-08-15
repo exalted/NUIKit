@@ -1,0 +1,170 @@
+//
+// Copyright (C) 2012 Ali Servet Donmez. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+#import "NUITableViewController.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// Internal methods
+////////////////////////////////////////////////////////////////////////////////
+@interface NUITableViewController (Internal) <UISearchDisplayDelegate, UISearchBarDelegate>
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// Private APIs
+////////////////////////////////////////////////////////////////////////////////
+@interface NUITableViewController () {
+    ODRefreshControl *_refreshControl;
+}
+
+@property (strong, nonatomic) UISearchDisplayController *searchDisplayController;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// Class implementation
+////////////////////////////////////////////////////////////////////////////////
+@implementation NUITableViewController
+
+@synthesize tableView = _tableView;
+@synthesize clearsSelectionOnViewWillAppear = _clearsSelectionOnViewWillAppear;
+// internal
+@synthesize searchDisplayController = _anotherSearchDisplayController;
+
+- (id)init
+{
+    return [self initWithStyle:UITableViewStylePlain];
+}
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super init];
+    if (self) {
+        _tableView = [[NUITableView alloc] initWithFrame:CGRectZero style:style];
+    }
+    return self;
+}
+
+- (void)loadView
+{
+    self.view = self.tableView;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    if (self.tableView.delegate == nil) {
+        self.tableView.delegate = self;
+    }
+
+    if (self.tableView.dataSource == nil) {
+        self.tableView.dataSource = self;
+    }
+
+    if (self.tableView.searchEnabled) {
+        UISearchBar *searchBar = [[UISearchBar alloc] init];
+        searchBar.delegate = self;
+
+        self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+        self.searchDisplayController.delegate = self;
+        self.searchDisplayController.searchResultsDataSource = self;
+        self.searchDisplayController.searchResultsDelegate = self;
+
+        [searchBar sizeToFit];
+        self.tableView.tableHeaderView = searchBar;
+    }
+
+    if (self.tableView.pullToRefreshEnabled) {
+        // Add pull-to-refresh function
+        _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+        [_refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+    }
+
+    // (Ref.: http://stackoverflow.com/questions/7853915/how-do-i-avoid-capturing-self-in-blocks-when-implementing-an-api/7854315#7854315)
+    // Also read "Use Lifetime Qualifiers to Avoid Strong Reference Cycles" in "Transitioning to ARC Release Notes" of iOS documentation
+    NUITableViewController * __block weakSelf = self;
+    if (self.tableView.paginationEnabled) {
+        [self.tableView addInfiniteScrollingWithActionHandler:^{
+            [weakSelf dropViewDidBeginRefreshing:nil];
+        }];
+    }
+
+    // trigger the refresh manually at the end of viewDidLoad
+    [self dropViewDidBeginRefreshing:_refreshControl];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    if (self.clearsSelectionOnViewWillAppear) {
+        for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:animated];
+        }
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    [self.tableView flashScrollIndicators];
+}
+
+#pragma mark - Table view delegate
+
+- (BOOL)shouldReloadDataForTableView:(NUITableView *)tableView
+{
+    return YES;
+}
+
+- (void)didReloadDataForTableView:(NUITableView *)tableView
+{
+    [_refreshControl endRefreshing];
+    [self.tableView.infiniteScrollingView stopAnimating];
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
+// Internal methods
+////////////////////////////////////////////////////////////////////////////////
+@implementation NUITableViewController (Internal)
+
+#pragma mark - Pull to refresh action
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
+{
+    if (refreshControl) {
+        if ([self.tableView.dataSource respondsToSelector:@selector(pullFreshDataForTableView:)]) {
+            [self.tableView.dataSource pullFreshDataForTableView:self.tableView];
+        }
+    }
+    else {
+        if ([self.tableView.dataSource respondsToSelector:@selector(pullMoreDataForTableView:)]) {
+            [self.tableView.dataSource pullMoreDataForTableView:self.tableView];
+        }
+    }
+
+    if ([self.tableView.delegate shouldReloadDataForTableView:self.tableView]) {
+        [self.tableView reloadData];
+    }
+}
+
+@end
