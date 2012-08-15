@@ -27,6 +27,8 @@
 @protocol NUITableViewDelegate <NSObject, UITableViewDelegate>
 
 @optional
+- (void)willPullFreshDataForTableView:(NUITableView *)tableView;
+
 - (BOOL)shouldReloadDataForTableView:(NUITableView *)tableView;
 - (void)didReloadDataForTableView:(NUITableView *)tableView;
 

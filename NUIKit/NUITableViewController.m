@@ -152,6 +152,9 @@
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
     if (refreshControl) {
+        if ([self.tableView.delegate respondsToSelector:@selector(willPullFreshDataForTableView:)]) {
+            [self.tableView.delegate willPullFreshDataForTableView:self.tableView];
+        }
         if ([self.tableView.dataSource respondsToSelector:@selector(pullFreshDataForTableView:)]) {
             [self.tableView.dataSource pullFreshDataForTableView:self.tableView];
         }
