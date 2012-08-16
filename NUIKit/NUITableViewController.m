@@ -123,6 +123,11 @@
 
 #pragma mark - Table view delegate
 
+- (void)willPullFreshDataForTableView:(NUITableView *)tableView
+{
+    /* NOOP */
+}
+
 - (BOOL)shouldReloadDataForTableView:(NUITableView *)tableView
 {
     return YES;
