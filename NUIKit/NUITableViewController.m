@@ -56,6 +56,7 @@
     self = [super init];
     if (self) {
         _tableView = [[NUITableView alloc] initWithFrame:CGRectZero style:style];
+        _clearsSelectionOnViewWillAppear = YES;
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }
