@@ -49,4 +49,14 @@
     [self.delegate didReloadDataForTableView:self];
 }
 
+- (void)pullFreshData
+{
+    if ([self.delegate respondsToSelector:@selector(willPullFreshDataForTableView:)]) {
+        [self.delegate willPullFreshDataForTableView:self];
+    }
+    if ([self.dataSource respondsToSelector:@selector(pullFreshDataForTableView:)]) {
+        [self.dataSource pullFreshDataForTableView:self];
+    }
+}
+
 @end

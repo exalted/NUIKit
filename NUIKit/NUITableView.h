@@ -57,4 +57,6 @@
 @property (assign, nonatomic) BOOL pullToRefreshEnabled;
 @property (assign, nonatomic) BOOL paginationEnabled;
 
+- (void)pullFreshData;
+
 @end

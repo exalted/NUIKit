@@ -21,7 +21,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface NUITableViewController (Internal) <UISearchDisplayDelegate, UISearchBarDelegate>
 
-- (void)pullFreshData;
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl;
 
 @end
@@ -102,7 +101,7 @@
     }
 
     // trigger the refresh manually at the end of viewDidLoad
-    [self pullFreshData];
+    [self.tableView pullFreshData];
     [self.tableView reloadData];
 }
 
@@ -149,22 +148,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 @implementation NUITableViewController (Internal)
 
-#pragma mark - Pull to refresh
-
-- (void)pullFreshData
-{
-    if ([self.tableView.delegate respondsToSelector:@selector(willPullFreshDataForTableView:)]) {
-        [self.tableView.delegate willPullFreshDataForTableView:self.tableView];
-    }
-    if ([self.tableView.dataSource respondsToSelector:@selector(pullFreshDataForTableView:)]) {
-        [self.tableView.dataSource pullFreshDataForTableView:self.tableView];
-    }
-}
+#pragma mark - Pull to refresh action
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
     if (refreshControl) {
-        [self pullFreshData];
+        [self.tableView pullFreshData];
     }
     else {
         if ([self.tableView.dataSource respondsToSelector:@selector(pullMoreDataForTableView:)]) {
