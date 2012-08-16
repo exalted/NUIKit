@@ -138,7 +138,7 @@
 - (void)didReloadDataForTableView:(NUITableView *)tableView
 {
     [_refreshControl endRefreshing];
-    [self.tableView.infiniteScrollingView stopAnimating];
+    [self.tableView.infiniteScrollingView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.0];
 }
 
 @end
