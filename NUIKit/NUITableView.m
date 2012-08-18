@@ -59,4 +59,11 @@
     }
 }
 
+- (void)pullMoreData
+{
+    if ([self.dataSource respondsToSelector:@selector(pullMoreDataForTableView:)]) {
+        [self.dataSource pullMoreDataForTableView:self];
+    }
+}
+
 @end

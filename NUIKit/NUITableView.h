@@ -58,5 +58,6 @@
 @property (assign, nonatomic) BOOL paginationEnabled;
 
 - (void)pullFreshData;
+- (void)pullMoreData;
 
 @end

@@ -59,6 +59,13 @@
         _clearsSelectionOnViewWillAppear = YES;
         _tableView.delegate = self;
         _tableView.dataSource = self;
+
+        // (Ref.: http://stackoverflow.com/questions/7853915/how-do-i-avoid-capturing-self-in-blocks-when-implementing-an-api/7854315#7854315)
+        // Also read "Use Lifetime Qualifiers to Avoid Strong Reference Cycles" in "Transitioning to ARC Release Notes" of iOS documentation
+        NUITableViewController * __block weakSelf = self;
+        [_tableView addInfiniteScrollingWithActionHandler:^{
+            [weakSelf dropViewDidBeginRefreshing:nil];
+        }];
     }
     return self;
 }
@@ -89,15 +96,6 @@
         // Add pull-to-refresh function
         _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
         [_refreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-    }
-
-    // (Ref.: http://stackoverflow.com/questions/7853915/how-do-i-avoid-capturing-self-in-blocks-when-implementing-an-api/7854315#7854315)
-    // Also read "Use Lifetime Qualifiers to Avoid Strong Reference Cycles" in "Transitioning to ARC Release Notes" of iOS documentation
-    NUITableViewController * __block weakSelf = self;
-    if (self.tableView.paginationEnabled) {
-        [self.tableView addInfiniteScrollingWithActionHandler:^{
-            [weakSelf dropViewDidBeginRefreshing:nil];
-        }];
     }
 
     // trigger the refresh manually at the end of viewDidLoad
@@ -152,13 +150,14 @@
 
 - (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
 {
-    if (refreshControl) {
+    if (refreshControl && self.tableView.pullToRefreshEnabled) {
         [self.tableView pullFreshData];
     }
+    else if (self.tableView.paginationEnabled) {
+        [self.tableView pullMoreData];
+    }
     else {
-        if ([self.tableView.dataSource respondsToSelector:@selector(pullMoreDataForTableView:)]) {
-            [self.tableView.dataSource pullMoreDataForTableView:self.tableView];
-        }
+        return;
     }
 
     if ([self.tableView.delegate shouldReloadDataForTableView:self.tableView]) {
