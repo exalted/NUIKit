@@ -22,11 +22,11 @@
 
 @implementation NUIDemoFirstViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithStyle:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle
 {
-    self = [super initWithStyle:style];
+    self = [super initWithStyle:style refreshControlStyle:refreshControlStyle];
     if (self) {
-        self.title = NSLocalizedString(@"First", @"First");
+        self.title = NSLocalizedString(@"Plain", @"Plain");
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
     }
 
@@ -76,6 +76,26 @@
     cell.textLabel.text = [NSString stringWithFormat:@"Row %d", indexPath.row+1];
     
     return cell;
+}
+
+- (void)pullFreshDataForTableView:(NUITableView *)tableView
+{
+    NSLog(@"%@: pull fresh data...", [self class]);
+    int64_t delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.tableView reloadData];
+    });
+}
+
+- (void)pullMoreDataForTableView:(NUITableView *)tableView
+{
+    NSLog(@"%@: pull more data...", [self class]);
+    int64_t delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.tableView reloadData];
+    });
 }
 
 /*
@@ -128,6 +148,11 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+- (BOOL)shouldReloadDataForTableView:(NUITableView *)tableView
+{
+    return NO;
 }
 
 @end

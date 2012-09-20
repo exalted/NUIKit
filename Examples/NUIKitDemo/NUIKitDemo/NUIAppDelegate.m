@@ -17,8 +17,9 @@
 #import "NUIAppDelegate.h"
 
 #import "NUIDemoFirstViewController.h"
-
 #import "NUIDemoSecondViewController.h"
+#import "NUIDemoThirdViewController.h"
+#import "NUIDemoFourthViewController.h"
 
 @implementation NUIAppDelegate
 
@@ -27,13 +28,17 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
-    NUITableViewController *viewController1 = [[NUIDemoFirstViewController alloc] initWithStyle:UITableViewStylePlain];
-    viewController1.tableView.searchEnabled = YES;
+    NUITableViewController *viewController1 = [[NUIDemoFirstViewController alloc] initWithStyle:UITableViewStylePlain refreshControlStyle:NUIRefreshControlStyleDefault];
 
-    NUITableViewController *viewController2 = [[NUIDemoSecondViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    NUITableViewController *viewController2 = [[NUIDemoSecondViewController alloc] initWithStyle:UITableViewStyleGrouped refreshControlStyle:NUIRefreshControlStyleDefault];
+    viewController2.tableView.paginationEnabled = YES;
+
+    NUITableViewController *viewController3 = [[NUIDemoThirdViewController alloc] initWithNibName:@"NUIDemoThirdView" bundle:nil];
+
+    UIViewController *viewController4 = [[NUIDemoFourthViewController alloc] initWithNibName:@"NUIDemoFourthView" bundle:nil];
 
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, viewController3, viewController4, nil];
 
     self.window.rootViewController = self.tabBarController;
 

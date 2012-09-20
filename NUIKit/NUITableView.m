@@ -17,36 +17,66 @@
 #import "NUITableView.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+// Private APIs
+////////////////////////////////////////////////////////////////////////////////
+@interface NUITableView () {
+    NUIRefreshControlStyle _refreshControlStyle;
+}
+
+@property (assign, nonatomic) NSString *refreshControlStyle; // "User Defined Runtime Attribute" for use in Interface Builder
+
+@property (strong, nonatomic) ODRefreshControl *defaultRefreshControl;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
 // Class implementation
 ////////////////////////////////////////////////////////////////////////////////
 @implementation NUITableView
 
-@synthesize searchEnabled = _searchEnabled;
-@synthesize pullToRefreshEnabled = _pullToRefreshEnabled;
-@synthesize paginationEnabled = _paginationEnabled;
-
-- (void)setPaginationEnabled:(BOOL)paginationEnabled
+- (id)init
 {
-    _paginationEnabled = paginationEnabled;
-    self.showsInfiniteScrolling = paginationEnabled;
+    return [self initWithFrame:CGRectZero style:UITableViewStylePlain refreshControlStyle:0];
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    return [self initWithFrame:frame style:UITableViewStylePlain refreshControlStyle:0];
 }
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
 {
+    return [self initWithFrame:frame style:style refreshControlStyle:0];
+}
+
+- (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle
+{
+    NSAssert(refreshControlStyle != NUIRefreshControlStyleLegacy, @"Legacy refresh control style is not supported yet!");
+
     self = [super initWithFrame:frame style:style];
     if (self) {
-        _searchEnabled = NO;
-        _pullToRefreshEnabled = YES;
-        _paginationEnabled = YES;
+        _refreshControlStyle = refreshControlStyle;
     }
     return self;
+}
+
+- (void)didMoveToWindow
+{
+    [super didMoveToWindow];
+
+    // Add pull-to-refresh
+    if (_refreshControlStyle == NUIRefreshControlStyleDefault) {
+        _defaultRefreshControl = [[ODRefreshControl alloc] initInScrollView:self];
+        [_defaultRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
+    }
 }
 
 - (void)reloadData
 {
     [super reloadData];
 
-    [self.delegate didReloadDataForTableView:self];
+    [self.defaultRefreshControl endRefreshing];
+    [self.infiniteScrollingView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.0];
 }
 
 - (void)pullFreshData
@@ -54,6 +84,7 @@
     if ([self.delegate respondsToSelector:@selector(willPullFreshDataForTableView:)]) {
         [self.delegate willPullFreshDataForTableView:self];
     }
+
     if ([self.dataSource respondsToSelector:@selector(pullFreshDataForTableView:)]) {
         [self.dataSource pullFreshDataForTableView:self];
     }
@@ -63,6 +94,63 @@
 {
     if ([self.dataSource respondsToSelector:@selector(pullMoreDataForTableView:)]) {
         [self.dataSource pullMoreDataForTableView:self];
+    }
+}
+
+#pragma mark - ()
+
+- (void)setRefreshControlStyle:(NSString *)refreshControlStyle
+{
+    if ([refreshControlStyle isEqualToString:@"default"]) {
+        _refreshControlStyle = NUIRefreshControlStyleDefault;
+    }
+    else if ([refreshControlStyle isEqualToString:@"legacy"]) {
+        _refreshControlStyle = NUIRefreshControlStyleLegacy;
+    }
+    else {
+        abort(); // TODO handle invalid value gracefully, maybe an exception?
+    }
+}
+
+- (NSString *)refreshControlStyle
+{
+    NSAssert(NO, @"You shouldn't rely on this, consider using _refreshControlStyle ivar instead.");
+    abort();
+}
+
+- (void)setPaginationEnabled:(BOOL)paginationEnabled
+{
+    _paginationEnabled = paginationEnabled;
+    self.showsInfiniteScrolling = paginationEnabled;
+
+    if (paginationEnabled) {
+        // (Ref.: http://stackoverflow.com/questions/7853915/how-do-i-avoid-capturing-self-in-blocks-when-implementing-an-api/7854315#7854315)
+        // Also read "Use Lifetime Qualifiers to Avoid Strong Reference Cycles" in "Transitioning to ARC Release Notes" of iOS documentation
+        NUITableView * __block weakSelf = self;
+        [self addInfiniteScrollingWithActionHandler:^{
+            [weakSelf dropViewDidBeginRefreshing:nil];
+        }];
+    }
+}
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
+{
+    if (refreshControl && _refreshControlStyle > 0) {
+        [self pullFreshData];
+    }
+    else if (self.paginationEnabled) {
+        [self pullMoreData];
+    }
+    else {
+        return;
+    }
+
+    BOOL reloadData = YES;
+    if ([self.delegate respondsToSelector:@selector(shouldReloadDataForTableView:)]) {
+        reloadData = [self.delegate shouldReloadDataForTableView:self];
+    }
+    if (reloadData) {
+        [self reloadData];
     }
 }
 

@@ -14,19 +14,8 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import "NUIKit.h"
 
-#import "NUITableView.h"
-
-////////////////////////////////////////////////////////////////////////////////
-// Class interface
-////////////////////////////////////////////////////////////////////////////////
-@interface NUITableViewController : UIViewController <NUITableViewDelegate, NUITableViewDataSource>
-
-@property (retain, nonatomic) NUITableView *tableView;
-@property (assign, nonatomic) BOOL clearsSelectionOnViewWillAppear;
-
-- (id)initWithStyle:(UITableViewStyle)style;
-- (id)initWithStyle:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle;
+@interface NUIDemoThirdViewController : NUITableViewController
 
 @end

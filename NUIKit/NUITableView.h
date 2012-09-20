@@ -21,16 +21,21 @@
 
 @class NUITableView;
 
+typedef enum {
+    NUIRefreshControlStyleDefault = 1,
+    NUIRefreshControlStyleLegacy
+} NUIRefreshControlStyle;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Delegate protocol definition
 ////////////////////////////////////////////////////////////////////////////////
 @protocol NUITableViewDelegate <NSObject, UITableViewDelegate>
 
 @optional
+
 - (void)willPullFreshDataForTableView:(NUITableView *)tableView;
 
 - (BOOL)shouldReloadDataForTableView:(NUITableView *)tableView;
-- (void)didReloadDataForTableView:(NUITableView *)tableView;
 
 @end
 
@@ -40,6 +45,7 @@
 @protocol NUITableViewDataSource <NSObject, UITableViewDataSource>
 
 @optional
+
 - (void)pullFreshDataForTableView:(NUITableView *)tableView;
 - (void)pullMoreDataForTableView:(NUITableView *)tableView;
 
@@ -53,9 +59,9 @@
 @property (assign, nonatomic) id<NUITableViewDelegate> delegate;
 @property (assign, nonatomic) id<NUITableViewDataSource> dataSource;
 
-@property (assign, nonatomic) BOOL searchEnabled;
-@property (assign, nonatomic) BOOL pullToRefreshEnabled;
 @property (assign, nonatomic) BOOL paginationEnabled;
+
+- (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle;
 
 - (void)pullFreshData;
 - (void)pullMoreData;

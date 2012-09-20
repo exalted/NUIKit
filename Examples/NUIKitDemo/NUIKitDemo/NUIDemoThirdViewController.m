@@ -14,20 +14,20 @@
 // limitations under the License.
 //
 
-#import "NUIDemoSecondViewController.h"
+#import "NUIDemoThirdViewController.h"
 
-@interface NUIDemoSecondViewController ()
+@interface NUIDemoThirdViewController ()
 
 @end
 
-@implementation NUIDemoSecondViewController
+@implementation NUIDemoThirdViewController
 
-- (id)initWithStyle:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style refreshControlStyle:refreshControlStyle];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"Grouped", @"Grouped");
-        self.tabBarItem.image = [UIImage imageNamed:@"second"];
+        self.title = NSLocalizedString(@"From Nib", @"From Nib");
+        self.tabBarItem.image = [UIImage imageNamed:@"third"];
     }
     return self;
 }
@@ -43,16 +43,10 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)viewDidUnload
+- (void)didReceiveMemoryWarning
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
