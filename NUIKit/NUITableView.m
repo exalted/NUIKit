@@ -119,7 +119,7 @@
         _refreshControlStyle = NUIRefreshControlStyleLegacy;
     }
     else {
-        abort(); // TODO handle invalid value gracefully, maybe an exception?
+        NSAssert(NO, @"Invalid refresh control style \"%@\" specified in User Defined Runtime Attributes from nib.", refreshControlStyle);
     }
 }
 
