@@ -44,7 +44,7 @@
 
 - (id)initWithStyle:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle
 {
-    self = [super init]; // triggers designated initializer '- initWithNibName:bundle:'
+    self = [self initWithNibName:nil bundle:nil];
     if (self) {
         _tableView = [[NUITableView alloc] initWithFrame:CGRectZero style:style refreshControlStyle:refreshControlStyle];
     }
