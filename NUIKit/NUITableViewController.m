@@ -25,7 +25,7 @@
 
 - (id)init
 {
-    return [self initWithStyle:UITableViewStylePlain refreshControlStyle:0];
+    return [self initWithStyle:UITableViewStylePlain refreshControlStyle:NUIRefreshControlStyleDefault];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,7 +39,7 @@
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
-    return [self initWithStyle:style refreshControlStyle:0];
+    return [self initWithStyle:style refreshControlStyle:NUIRefreshControlStyleDefault];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle

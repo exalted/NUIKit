@@ -41,17 +41,17 @@
 
 - (id)init
 {
-    return [self initWithFrame:CGRectZero style:UITableViewStylePlain refreshControlStyle:0];
+    return [self initWithFrame:CGRectZero style:UITableViewStylePlain refreshControlStyle:NUIRefreshControlStyleDefault];
 }
 
 - (id)initWithFrame:(CGRect)frame
 {
-    return [self initWithFrame:frame style:UITableViewStylePlain refreshControlStyle:0];
+    return [self initWithFrame:frame style:UITableViewStylePlain refreshControlStyle:NUIRefreshControlStyleDefault];
 }
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
 {
-    return [self initWithFrame:frame style:style refreshControlStyle:0];
+    return [self initWithFrame:frame style:style refreshControlStyle:NUIRefreshControlStyleDefault];
 }
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style refreshControlStyle:(NUIRefreshControlStyle)refreshControlStyle
