@@ -16,7 +16,12 @@
 
 #import "NUITableViewController.h"
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Class implementation
+////////////////////////////////////////////////////////////////////////////////
 @implementation NUITableViewController
+
+#pragma mark Initializing
 
 - (id)init
 {
@@ -45,6 +50,8 @@
     }
     return self;
 }
+
+#pragma mark View lifecycle
 
 - (void)loadView
 {

@@ -18,6 +18,9 @@
 
 #import "NUITableView.h"
 
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Class interface
+////////////////////////////////////////////////////////////////////////////////
 @interface NUITableViewController : UIViewController <NUITableViewDelegate, NUITableViewDataSource>
 
 @property (retain, nonatomic) NUITableView *tableView;

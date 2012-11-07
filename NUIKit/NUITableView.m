@@ -20,7 +20,7 @@
 #import "SVPullToRefresh.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// Private APIs
+#pragma mark - Private APIs
 ////////////////////////////////////////////////////////////////////////////////
 @interface NUITableView () {
     NUIRefreshControlStyle _refreshControlStyle;
@@ -33,9 +33,11 @@
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
-// Class implementation
+#pragma mark - Class implementation
 ////////////////////////////////////////////////////////////////////////////////
 @implementation NUITableView
+
+#pragma mark Initializing
 
 - (id)init
 {
@@ -63,6 +65,8 @@
     return self;
 }
 
+#pragma mark Observing View-Related Changes
+
 - (void)didMoveToWindow
 {
     [super didMoveToWindow];
@@ -74,6 +78,8 @@
     }
 }
 
+#pragma mark Reloading the Table View
+
 - (void)reloadData
 {
     [super reloadData];
@@ -81,6 +87,8 @@
     [self.defaultRefreshControl endRefreshing];
     [self.infiniteScrollingView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.0];
 }
+
+#pragma mark Pull data
 
 - (void)pullFreshData
 {
@@ -100,7 +108,7 @@
     }
 }
 
-#pragma mark - ()
+#pragma mark ()
 
 - (void)setRefreshControlStyle:(NSString *)refreshControlStyle
 {
