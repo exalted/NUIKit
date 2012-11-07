@@ -60,8 +60,6 @@
         // should not call super, it is easier than loading nib on my own, because
         // I'm too lazy! ;-)
         [super loadView];
-
-        self.tableView = (NUITableView *)self.view;
     }
     else {
         self.view = self.tableView;
@@ -71,6 +69,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    if (self.tableView == nil) {
+        self.tableView = (NUITableView *)self.view;
+    }
 
     if (self.tableView.delegate == nil) {
         self.tableView.delegate = self;
@@ -105,9 +107,9 @@
 
 - (void)viewDidUnload
 {
-    [self setTableView:nil];
-
     [super viewDidUnload];
+
+    self.tableView = nil;
 }
 
 @end
