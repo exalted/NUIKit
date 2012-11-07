@@ -125,7 +125,7 @@
 
 - (NSString *)refreshControlStyle
 {
-    NSAssert(NO, @"You shouldn't rely on this, consider using _refreshControlStyle ivar instead.");
+    NSAssert(NO, @"You shouldn't rely on this, use _refreshControlStyle ivar instead.");
     abort();
 }
 
