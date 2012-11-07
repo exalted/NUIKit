@@ -90,6 +90,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		50D348B31649254B00299A58 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9A3F7F7F15DC03F30065909D /* NUITableView.h */,
+				9A3F7F8015DC03F30065909D /* NUITableView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		50D348B41649255600299A58 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9ADA1BB215DAC71A00A87FD9 /* NUITableViewController.h */,
+				9ADA1BB315DAC71A00A87FD9 /* NUITableViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		9ADA1B5B15DAC46F00A87FD9 = {
 			isa = PBXGroup;
 			children = (
@@ -163,10 +181,8 @@
 			isa = PBXGroup;
 			children = (
 				9ADA1BBF15DACA2900A87FD9 /* NUIKit.h */,
-				9A3F7F7F15DC03F30065909D /* NUITableView.h */,
-				9A3F7F8015DC03F30065909D /* NUITableView.m */,
-				9ADA1BB215DAC71A00A87FD9 /* NUITableViewController.h */,
-				9ADA1BB315DAC71A00A87FD9 /* NUITableViewController.m */,
+				50D348B31649254B00299A58 /* Views */,
+				50D348B41649255600299A58 /* Controllers */,
 			);
 			name = NUIKit;
 			path = ../../NUIKit;
