@@ -14,9 +14,11 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import "NUIKit.h"
 
-#import "NUIViewController.h"
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Class interface
+////////////////////////////////////////////////////////////////////////////////
+@interface NUIViewController : UIViewController
 
-#import "NUITableView.h"
-#import "NUITableViewController.h"
+@end

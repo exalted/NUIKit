@@ -21,7 +21,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Class interface
 ////////////////////////////////////////////////////////////////////////////////
-@interface NUITableViewController : UIViewController <NUITableViewDelegate, NUITableViewDataSource>
+@interface NUITableViewController : NUIViewController <NUITableViewDelegate, NUITableViewDataSource>
 
 @property (retain, nonatomic) NUITableView *tableView;
 @property (assign, nonatomic) BOOL clearsSelectionOnViewWillAppear;

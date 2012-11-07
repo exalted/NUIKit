@@ -11,6 +11,7 @@
 		50B77EDA161092F9003FCCEF /* NUIDemoFourthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50B77ED8161092F9003FCCEF /* NUIDemoFourthView.xib */; };
 		50B77EE216109E9C003FCCEF /* fourth.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B77EE016109E9C003FCCEF /* fourth.png */; };
 		50B77EE316109E9C003FCCEF /* fourth@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B77EE116109E9C003FCCEF /* fourth@2x.png */; };
+		50D348B11649253700299A58 /* NUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D348B01649253700299A58 /* NUIViewController.m */; };
 		50FEE1E8160B294B009D7915 /* NUIDemoThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FEE1E6160B294B009D7915 /* NUIDemoThirdViewController.m */; };
 		50FEE1E9160B294B009D7915 /* NUIDemoThirdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50FEE1E7160B294B009D7915 /* NUIDemoThirdView.xib */; };
 		50FEE1F1160B2963009D7915 /* third.png in Resources */ = {isa = PBXBuildFile; fileRef = 50FEE1EF160B2963009D7915 /* third.png */; };
@@ -40,6 +41,8 @@
 		50B77ED8161092F9003FCCEF /* NUIDemoFourthView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NUIDemoFourthView.xib; sourceTree = "<group>"; };
 		50B77EE016109E9C003FCCEF /* fourth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fourth.png; sourceTree = "<group>"; };
 		50B77EE116109E9C003FCCEF /* fourth@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fourth@2x.png"; sourceTree = "<group>"; };
+		50D348AF1649253700299A58 /* NUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIViewController.h; sourceTree = "<group>"; };
+		50D348B01649253700299A58 /* NUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NUIViewController.m; sourceTree = "<group>"; };
 		50FEE1E5160B294B009D7915 /* NUIDemoThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIDemoThirdViewController.h; sourceTree = "<group>"; };
 		50FEE1E6160B294B009D7915 /* NUIDemoThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NUIDemoThirdViewController.m; sourceTree = "<group>"; };
 		50FEE1E7160B294B009D7915 /* NUIDemoThirdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NUIDemoThirdView.xib; sourceTree = "<group>"; };
@@ -102,6 +105,8 @@
 		50D348B41649255600299A58 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				50D348AF1649253700299A58 /* NUIViewController.h */,
+				50D348B01649253700299A58 /* NUIViewController.m */,
 				9ADA1BB215DAC71A00A87FD9 /* NUITableViewController.h */,
 				9ADA1BB315DAC71A00A87FD9 /* NUITableViewController.m */,
 			);
@@ -301,6 +306,7 @@
 				9A3F7F8115DC03F30065909D /* NUITableView.m in Sources */,
 				50FEE1E8160B294B009D7915 /* NUIDemoThirdViewController.m in Sources */,
 				50B77ED9161092F9003FCCEF /* NUIDemoFourthViewController.m in Sources */,
+				50D348B11649253700299A58 /* NUIViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
