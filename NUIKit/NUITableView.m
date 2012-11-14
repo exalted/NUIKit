@@ -23,6 +23,7 @@
 #pragma mark - Private APIs
 ////////////////////////////////////////////////////////////////////////////////
 @interface NUITableView () {
+    // ivar used *also* when initializing from from nib: NSString object gets converted as enum value and stored here
     NUIRefreshControlStyle _refreshControlStyle;
 }
 
